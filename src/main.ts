@@ -50,7 +50,10 @@ const clock = new THREE.Clock();
 
 window.addEventListener('resize', () => {
   renderer.setSize(window.innerWidth, window.innerHeight);
-  material.uniforms.uResolution.value.set(window.innerWidth, window.innerHeight);
+  material.uniforms.uResolution.value.set(
+    window.innerWidth * window.devicePixelRatio,
+    window.innerHeight * window.devicePixelRatio,
+  );
 });
 
 window.addEventListener('keydown', (e) => {
