@@ -1,3 +1,8 @@
+/**
+ * testcard.frag
+ * MIT License — Copyright (c) 2026 Bernhard Hoffmann
+ */
+
 uniform float uTime;
 uniform float uDelta;
 uniform float uSpeed;

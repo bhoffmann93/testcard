@@ -1,8 +1,6 @@
 import * as THREE from 'three';
-import { Pane } from 'tweakpane';
-import Stats from 'stats.js';
-import vertexShader from '../glsl/default.vert';
-import fragmentShader from '../glsl/default.frag';
+import vertexShader from '../glsl/testcard.vert';
+import fragmentShader from '../glsl/testcard.frag';
 
 const renderer = new THREE.WebGLRenderer({ antialias: false });
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -11,10 +9,6 @@ document.body.appendChild(renderer.domElement);
 
 const scene = new THREE.Scene();
 const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
-
-const params = {
-  uSpeed: 1.0,
-};
 
 const material = new THREE.ShaderMaterial({
   uniforms: {
@@ -26,7 +20,7 @@ const material = new THREE.ShaderMaterial({
         window.innerHeight * window.devicePixelRatio,
       ),
     },
-    uSpeed: { value: params.uSpeed },
+    uSpeed: { value: 1.0 },
   },
   vertexShader,
   fragmentShader,
@@ -36,15 +30,6 @@ const material = new THREE.ShaderMaterial({
 
 const quad = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), material);
 scene.add(quad);
-
-const stats = new Stats();
-stats.showPanel(0);
-document.body.appendChild(stats.dom);
-
-const pane = new Pane({ title: 'Controls' });
-pane.addBinding(params, 'uSpeed', { min: 0, max: 5, step: 0.01, label: 'speed' }).on('change', ({ value }) => {
-  material.uniforms.uSpeed.value = value;
-});
 
 const clock = new THREE.Clock();
 
@@ -56,26 +41,14 @@ window.addEventListener('resize', () => {
   );
 });
 
-window.addEventListener('keydown', (e) => {
-  if (e.key === 'g' || e.key === 'p') {
-    pane.hidden = !pane.hidden;
-    stats.dom.style.display = stats.dom.style.display === 'none' ? 'block' : 'none';
-  }
-});
-
 function animate() {
   requestAnimationFrame(animate);
 
-  stats.begin();
-
   const delta = clock.getDelta();
-
   material.uniforms.uTime.value += delta;
   material.uniforms.uDelta.value = delta;
 
   renderer.render(scene, camera);
-
-  stats.end();
 }
 
 animate();
