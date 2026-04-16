@@ -20,7 +20,12 @@ const material = new THREE.ShaderMaterial({
   uniforms: {
     uTime: { value: 0 },
     uDelta: { value: 0 },
-    uResolution: { value: new THREE.Vector2(window.innerWidth, window.innerHeight) },
+    uResolution: {
+      value: new THREE.Vector2(
+        window.innerWidth * window.devicePixelRatio,
+        window.innerHeight * window.devicePixelRatio,
+      ),
+    },
     uSpeed: { value: params.uSpeed },
   },
   vertexShader,
